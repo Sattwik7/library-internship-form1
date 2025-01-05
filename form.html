@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Internship Application Form</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+
+    .form-container {
+      width: 60%;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    .form-group button {
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h1>Library Internship Application Form</h1>
+  <form id="internshipForm">
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" name="fullName" required>
+    </div>
+    <div class="form-group">
+      <label for="dob">Date of Birth</label>
+      <input type="date" id="dob" name="dob" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="qualification">Highest Qualification</label>
+      <select id="qualification" name="qualification" required>
+        <option value="Undergraduate">Undergraduate</option>
+        <option value="Postgraduate">Postgraduate</option>
+        <option value="PhD">PhD</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="institution">Institution Name</label>
+      <input type="text" id="institution" name="institution" required>
+    </div>
+    <div class="form-group">
+      <label for="startDate">Proposed Internship Start Date</label>
+      <input type="date" id="startDate" name="startDate" required>
+    </div>
+    <div class="form-group">
+      <button type="button" onclick="generatePDF()">Submit and Download Application Letter</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // College Letterhead
+    const logoUrl = 'https://vcfw.org/new-website/images/vcfw-logo.png'; // Replace with your actual logo URL
+    doc.addImage(logoUrl, 'PNG', 10, 10, 20, 20);
+    doc.setFont('Helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('Vidyasagar College for Women', 35, 20);
+    doc.setFontSize(10);
+    doc.text(
+      '(Govt. Aided College, Kolkata, Established in 1960, Affiliated to University of Calcutta)', 
+      35, 25
+    );
+    doc.text('39, Sankar Ghosh Lane, Kolkata - 700 006, West Bengal', 35, 30);
+    doc.text('Re-accredited at the B++ (With CGPA 2.79) by NAAC (Cycle-2) 2017', 35, 35);
+
+    // Collect form data
+    const fullName = document.getElementById('fullName').value;
+    const dob = document.getElementById('dob').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const qualification = document.getElementById('qualification').value;
+    const institution = document.getElementById('institution').value;
+    const startDate = document.getElementById('startDate').value;
+
+    // Application Letter Content
+    const content = `
+      To,
+      The Librarian,
+      Vidyasagar College for Women,
+      Kolkata, West Bengal
+      
+      Subject: Application for Library Internship
+      
+      Respected Sir/Madam,
+      
+      I, ${fullName}, am writing to express my interest in pursuing a library internship at your esteemed institution. 
+      Below are my details:
+      
+      Name: ${fullName}
+      Date of Birth: ${dob}
+      Email: ${email}
+      Phone: ${phone}
+      Address: ${address}
+      Qualification: ${qualification}
+      Institution: ${institution}
+      Proposed Start Date: ${startDate}
+      
+      I am eager to contribute to the library's services and gain valuable experience.
+      
+      Sincerely,
+      ${fullName}
+      
+      [Authorized Signature]
+    `;
+
+    // Add content to PDF
+    doc.setFont('Helvetica');
+    doc.setFontSize(12);
+    const margins = { top: 50, left: 10, bottom: 10 };
+    doc.text(content, margins.left, margins.top);
+
+    // Save PDF
+    doc.save(`${fullName}_Library_Internship_Application.pdf`);
+  }
+</script>
+
+</body>
+</html>
